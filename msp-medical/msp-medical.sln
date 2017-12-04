@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "msp-medical", "msp-medical\msp-medical.csproj", "{CA4A4573-4E44-4D0E-8A5D-B111E2AE59A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "msp-medical.Web", "msp-medical.Web\msp-medical.Web.csproj", "{E0F8CA3B-3805-472E-8052-D0A66867DF46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{CA4A4573-4E44-4D0E-8A5D-B111E2AE59A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA4A4573-4E44-4D0E-8A5D-B111E2AE59A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA4A4573-4E44-4D0E-8A5D-B111E2AE59A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0F8CA3B-3805-472E-8052-D0A66867DF46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0F8CA3B-3805-472E-8052-D0A66867DF46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0F8CA3B-3805-472E-8052-D0A66867DF46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0F8CA3B-3805-472E-8052-D0A66867DF46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
