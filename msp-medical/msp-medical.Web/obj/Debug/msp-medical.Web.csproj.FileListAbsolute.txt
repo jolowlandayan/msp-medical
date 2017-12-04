@@ -78,6 +78,5 @@ C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Microsoft.AI.WindowsServer.xml
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Microsoft.AI.Web.xml
-C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\obj\Debug\msp-medical.Web.csprojResolveAssemblyReference.cache
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\obj\Debug\msp-medical.Web.dll
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\obj\Debug\msp-medical.Web.pdb

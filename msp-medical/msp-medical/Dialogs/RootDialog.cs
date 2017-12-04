@@ -91,7 +91,7 @@ namespace msp_medical.Dialogs
         public async Task ContactMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
             this.contactNo = Convert.ToDouble(await argument);
-            PromptDialog.Text(context, this.CategoryMessageReceivedAsync, "Anything else?");
+            PromptDialog.Text(context, this.CategoryMessageReceivedAsync, "Residence");
         }
         //public async Task DateofAdmissionReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         //{
