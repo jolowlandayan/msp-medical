@@ -228,6 +228,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Configuration\PatientConfig.cs" />
+    <Compile Include="Infrastructure\Configuration\PatientPictureConfig.cs" />
+    <Compile Include="Infrastructure\Database\DbConfiguration.cs" />
+    <Compile Include="Infrastructure\Entities\PatientInfo.cs" />
+    <Compile Include="Infrastructure\Entities\PatientPicture.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\TicketAPIClient.cs" />
   </ItemGroup>
