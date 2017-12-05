@@ -80,3 +80,4 @@ C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Microsoft.AI.Web.xml
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\obj\Debug\msp-medical.Web.dll
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\obj\Debug\msp-medical.Web.pdb
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\obj\Debug\msp-medical.Web.csproj.CoreCompileInputs.cache

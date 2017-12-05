@@ -33,7 +33,7 @@ namespace msp_medical.Dialogs
         {
             var message = await argument;
             await context.PostAsync("Hi! I’m the MSP-Medical Bot. I will be guiding you to your appointment.");
-            PromptDialog.Confirm(context, this.NameMessageReceivedAsync, "Is already a registered patient?");
+            PromptDialog.Confirm(context, this.NameMessageReceivedAsync, "Are you already a registered patient?");
             
         }
         
@@ -43,12 +43,12 @@ namespace msp_medical.Dialogs
             if (confirmed)
             {
                 this.name = Convert.ToString(await argument);
-                PromptDialog.Text(context, this.GenderMessageReceivedAsync, "What is your fullname?");
+                PromptDialog.Text(context, this.GenderMessageReceivedAsync, "What is your fullname? Ex. Jane D Doe");
             }
             else
             {
                 this.name = Convert.ToString(await argument);
-                PromptDialog.Text(context, this.GenderMessageReceivedAsync, "What is your fullname?");
+                PromptDialog.Text(context, this.GenderMessageReceivedAsync, "What is your fullname? Ex. Jane D Doe");
             }
 
         }
@@ -57,6 +57,7 @@ namespace msp_medical.Dialogs
             this.sex = await argument;
             var gender = new string[] { "Male", "Female" };
             PromptDialog.Choice(context, this.AgeMessageReceivedAsync, gender, "What is your gender?");
+            
         }
         public async Task AgeMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
@@ -86,7 +87,7 @@ namespace msp_medical.Dialogs
         public async Task AddressMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
             this.residence = await argument;
-            PromptDialog.Text(context, this.ContactMessageReceivedAsync, "Can you provide your contact information?");
+            PromptDialog.Text(context, this.ContactMessageReceivedAsync, "Please provide your contact information? Ex. 091755833");
         }
         public async Task ContactMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
@@ -111,7 +112,7 @@ namespace msp_medical.Dialogs
                        $"Residence: \"{this.residence}\".  " +
                        $"Contact No: \"{this.contactNo}\".  " +
                        $"Date of Admission: \"{this.dateOfAdmission}\".  " +
-                       $"Can you please confirm that this information is correct?";
+                       $"Can you please confirm that these information are correct?";
 
             PromptDialog.Confirm(context, this.IssueConfirmedMessageReceivedAsync, text);
         }

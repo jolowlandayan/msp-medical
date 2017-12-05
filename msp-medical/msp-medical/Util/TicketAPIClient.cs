@@ -26,7 +26,7 @@ namespace msp_medical.Util
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(@"http://localhost:3979/");
+                    client.BaseAddress = new Uri(@"http://msp-medical20171204060458.azurewebsites.net/");
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                     var ticket = new Ticket
