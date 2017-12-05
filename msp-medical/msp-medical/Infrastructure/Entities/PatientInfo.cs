@@ -5,11 +5,14 @@ using System.Web;
 
 namespace msp_medical.Infrastructure.Entities
 {
+    [Serializable]
     public class PatientInfo
     {
         public int PatientId { get; set; }
 
         public string Name { get; set; }
+
+        public string Sex { get; set; }
 
         public string Age { get; set; }
 

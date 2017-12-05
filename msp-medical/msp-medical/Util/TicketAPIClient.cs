@@ -1,4 +1,4 @@
-﻿using msp_medical.viewModels;
+﻿using msp_medical.Infrastructure.Entities;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;

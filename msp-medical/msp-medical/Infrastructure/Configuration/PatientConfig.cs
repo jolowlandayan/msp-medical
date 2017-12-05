@@ -25,6 +25,10 @@ namespace msp_medical.Infrastructure.Configuration
                 .HasColumnName("Name")
                 .HasColumnType(SqlDbType.NVarChar.ToString());
 
+            Property(x => x.Sex)
+                .HasColumnName("Sex")
+                .HasColumnType(SqlDbType.NVarChar.ToString());
+
             Property(x => x.Age)
                .HasColumnName("Age")
                .HasColumnType(SqlDbType.NVarChar.ToString());

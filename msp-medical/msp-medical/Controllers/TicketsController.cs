@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Web.Http;
 using msp_medical.Util;
-using msp_medical.viewModels;
+using msp_medical.Infrastructure.Database;
+using msp_medical.Infrastructure.Entities;
 
 namespace msp_medical.Controllers
 {
@@ -15,12 +16,19 @@ namespace msp_medical.Controllers
         public IHttpActionResult Post(PatientInfo ticket)
         {
             int ticketId;
-
-            lock (tickets)
+            
+            
+            using (var context = new DbConfiguration())
             {
-                ticketId = nextTicketId++;
-                TicketsController.tickets.Add(ticketId, ticket);
+                context.PatientInfo.Add(ticket);
+                context.SaveChanges();
             }
+
+                lock (tickets)
+                {
+                    ticketId = nextTicketId++;
+                    TicketsController.tickets.Add(ticketId, ticket);
+                }
 
             return this.Ok(ticketId.ToString());
         }
