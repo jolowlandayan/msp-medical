@@ -6,22 +6,16 @@ using msp_medical.Util;
 using System.Collections.Generic;
 using msp_medical.Controllers;
 using AdaptiveCards;
+using msp_medical.viewModels;
 
 namespace msp_medical.Dialogs
 {
     [Serializable]
     public class RootDialog : IDialog<object>
     {
-        private string name;
-        private string sex;
-        private string age;
-        private string maritalStatus;
-        private DateTime birthday;
-        private string residence;
-        private double contactNo;
-        private DateTime dateOfAdmission = DateTime.Now;
-        
-        
+
+        PatientInfo PatientDetails = new PatientInfo();
+
         public Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
@@ -32,90 +26,235 @@ namespace msp_medical.Dialogs
         public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
         {
             var message = await argument;
-            await context.PostAsync("Hi! I’m the MSP-Medical Bot. I will be guiding you to your appointment.");
+            await context.PostAsync("Hi! I’m the MSP-Medical Bot. I will be guiding you to your Appointment.");
             PromptDialog.Confirm(context, this.NameMessageReceivedAsync, "Are you already a registered patient?");
-            
+
         }
         
         public async Task NameMessageReceivedAsync(IDialogContext context, IAwaitable<bool> argument)
         {
+
             var confirmed = await argument;
-            if (confirmed)
-            {
-                this.name = Convert.ToString(await argument);
-                PromptDialog.Text(context, this.GenderMessageReceivedAsync, "What is your fullname? Ex. Jane D Doe");
-            }
-            else
-            {
-                this.name = Convert.ToString(await argument);
-                PromptDialog.Text(context, this.GenderMessageReceivedAsync, "What is your fullname? Ex. Jane D Doe");
-            }
+            await context.PostAsync("Thanks this is noted \U0001F600");
+            PromptDialog.Text(context, this.FullNameMessageReceivedAsync, "What is your fullname? Ex. Jane D Doe"); 
+        }
+
+        public async Task FullNameMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+             
+            this.PatientDetails.name = Convert.ToString(await argument);
+            await GenderMessageReceivedAsync(context);
+
+
 
         }
-        public async Task GenderMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        public async Task GenderMessageReceivedAsync(IDialogContext context)
         {
-            this.sex = await argument;
-            var gender = new string[] { "Male", "Female" };
-            PromptDialog.Choice(context, this.AgeMessageReceivedAsync, gender, "What is your gender?");
             
+            
+            PromptDialog.Choice(context, this.missingGender, new List<string>() { "Male", "Female" }, $"What is your gender {this.PatientDetails.name}?");
+
         }
-        public async Task AgeMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+
+        public async Task missingGender(IDialogContext context, IAwaitable<string> argument)
         {
-            this.age = await argument;
+            this.PatientDetails.sex = await argument;
+            await AgeMessageReceivedAsync(context);
+        }
+        public async Task AgeMessageReceivedAsync(IDialogContext context)
+        {
+            
             PromptDialog.Text(context, this.MaritalStatusMessageReceivedAsync, "What is your age?");
         }
         public async Task MaritalStatusMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
-            this.maritalStatus = await argument;
-            PromptDialog.Confirm(context, this.BirthdayStatusMessageReceivedAsync, "Are you married?");
+            this.PatientDetails.maritalStatus = await argument;
+            this.PatientDetails.age = "26";
+            PromptDialog.Confirm(context, this.BirthdayStatusMessageReceivedAsync, $"Are you married {this.PatientDetails.name}? \U0001F600 \U0001F600 \U0001F600");
         }
         public async Task BirthdayStatusMessageReceivedAsync(IDialogContext context, IAwaitable<bool> argument)
         {
             var confirmed = await argument;
             if(confirmed)
             {
-                this.maritalStatus = "Married";
+                this.PatientDetails.maritalStatus = "Married";
                 PromptDialog.Text(context, this.AddressMessageReceivedAsync, "Where do you live?");
             }
             else
             {
-                this.maritalStatus = "Single";
+                this.PatientDetails.maritalStatus = "Single";
                 PromptDialog.Text(context, this.AddressMessageReceivedAsync, "Where do you live?");
             }
 
         }
         public async Task AddressMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
-            this.residence = await argument;
+            this.PatientDetails.residence = await argument;
             PromptDialog.Text(context, this.ContactMessageReceivedAsync, "Please provide your contact information? Ex. 091755833");
         }
         public async Task ContactMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
-            this.contactNo = Convert.ToDouble(await argument);
-            PromptDialog.Text(context, this.CategoryMessageReceivedAsync, "Residence");
-        }
-        //public async Task DateofAdmissionReceivedAsync(IDialogContext context, IAwaitable<string> argument)
-        //{
-        //    this.contactNo = Convert.ToInt32(await argument);
-        //    PromptDialog.Text(context, this.CategoryMessageReceivedAsync, "Can you provide your contact information?");
-        //}
-        public async Task CategoryMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
-        {
-            this.residence = await argument;
-            var text = $"Great! I'm going to set your appointment \"{this.name}\" " +
-                       
-                       $"The basic information I will use is " + 
-                       $"Gender: \"{this.sex}\".  " +
-                       $"Age: \"{this.age}\".  " +
-                       $"Marital Status: \"{this.maritalStatus}\".  " +
-                       $"Birthday: \"{this.birthday}\".  " +
-                       $"Residence: \"{this.residence}\".  " +
-                       $"Contact No: \"{this.contactNo}\".  " +
-                       $"Date of Admission: \"{this.dateOfAdmission}\".  " +
-                       $"Can you please confirm that these information are correct?";
+          this.PatientDetails.contactNo = Convert.ToDouble(await argument);
+          await context.PostAsync( "Thank you, your initial information has been gathered \U0001F600");
 
-            PromptDialog.Confirm(context, this.IssueConfirmedMessageReceivedAsync, text);
+
+            var text = $"Great! I'm going to set your appointment \"{this.PatientDetails.name}\" " +
+                        $"\n\n" +
+                        $"The basic information I will use is " +
+                        $"\n" +
+                        $"Gender: \"{this.PatientDetails.sex}\".  " +
+                        $"\n" +
+                        $"Age: \"{this.PatientDetails.age}\".  " +
+                        $"\n" +
+                        $"Marital Status: \"{this.PatientDetails.maritalStatus}\".  " +
+                        $"\n" +
+                        $"Birthday: \"{this.PatientDetails.birthday}\".  " +
+                        $"\n" +
+                        $"Residence: \"{this.PatientDetails.residence}\".  " +
+                        $"\n" +
+                        $"Contact No: \"{this.PatientDetails.contactNo}\".  " +
+                        $"\n" +
+                        $"Date of Admission: \"{this.PatientDetails.dateOfAdmission}\".  " +
+                        $"\n" +
+                        $"Can you please confirm that these information are correct?";
+
+            await context.PostAsync("We will now gather information related to your present illness that you are feeling.");
+
+
+            PromptDialog.Text( context, this.DescriptionMessageReceivedAsync,"Please describe your current illness/feeling");
+
+            
         }
+
+        public async Task DescriptionMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.Description = await argument;
+            await context.PostAsync($" we hope {this.PatientDetails.name} youre feeling fine :(");
+            PromptDialog.Text(context, this.AggravatingFactorsMessageReceivedAsync, " Are there any aggravating factors to which may have cause your current illness?");
+        }
+
+        public async Task AggravatingFactorsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.aggravatingFactors = await argument;
+            PromptDialog.Text(context, this.RelievingFactorsMessageReceivedAsync, " Are there any relieving factors to which made you feel better?");
+
+        }
+
+        public async Task RelievingFactorsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.relievingfactors = await argument;
+            PromptDialog.Text(context, this.IntensityFactorsMessageReceivedAsync, "Rate the pain you are experiencing from 1 - 10");
+
+        }
+
+        public async Task IntensityFactorsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.intensity = await argument;
+            PromptDialog.Text(context, this.TimingsFactorsMessageReceivedAsync, "Are there any timings wherein you experience the pain?");
+
+        }
+
+        public async Task TimingsFactorsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.timing = await argument;
+            PromptDialog.Text(context, this.medicationsFactorsMessageReceivedAsync, "Are you taking any medications to relieve the pain.");
+
+        }
+
+        public async Task medicationsFactorsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.medications = await argument;
+            PromptDialog.Text(context, this.previousHospitalizationFactorsMessageReceivedAsync, "Have you been recently hospitalied");
+
+        }
+
+        public async Task previousHospitalizationFactorsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.previousHospitalization = await argument;
+            PromptDialog.Text(context, this.medicationsTakenFactorsMessageReceivedAsync, "May you kindly list down the medications you are taking");
+
+        }
+
+        public async Task medicationsTakenFactorsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.medicationsTaken = await argument;
+            PromptDialog.Text(context, this.diseasesFactorsMessageReceivedAsync, "May you kindly list down any disease you or your family members have?");
+
+        }
+
+        public async Task diseasesFactorsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.diseases = await argument;
+            PromptDialog.Text(context, this.injuriesorAccidentsMessageReceivedAsync, "Did you have any recent injuries or accidents?");
+
+        }
+
+        public async Task injuriesorAccidentsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.injuriesAccidents = await argument;
+            PromptDialog.Text(context, this.operationsMessageReceivedAsync, "may you list down all operations that you have had");
+
+        }
+
+        public async Task operationsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.operations = await argument;
+            PromptDialog.Text(context, this.allergiesMessageReceivedAsync, "please list down all allergies you have");
+
+        }
+
+        public async Task allergiesMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.allergies = await argument;
+            
+            PromptDialog.Choice(context, this.waterSupplyMessageReceivedAsync, new List<string>() { "Nawasa", "Maynilad", "Deepwell" }, "where do you get your water supply");
+
+        }
+
+        public async Task waterSupplyMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.waterSupply = await argument;
+            
+            PromptDialog.Choice(context, this.drinkingwaterMessageReceivedAsync, new List<string>() { "Deepwell", "Filtered", "Boiledwater" }, "where do you get your drinking water");
+
+        }
+
+        public async Task drinkingwaterMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.householdMembers = await argument;
+           
+            PromptDialog.Text(context, this.numberofhouseholdwaterMessageReceivedAsync,"Number of household members");
+
+        }
+
+        public async Task numberofhouseholdwaterMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.householdMembers = await argument;
+
+            var text = $"Great! I'm going to set your appointment \"{this.PatientDetails.name}\" " +
+            $"\n\n" +
+            $"The basic information I will use is " +
+            $"\n" +
+            $"Gender: \"{this.PatientDetails.sex}\".  " +
+            $"\n" +
+            $"Age: \"{this.PatientDetails.age}\".  " +
+            $"\n" +
+            $"Marital Status: \"{this.PatientDetails.maritalStatus}\".  " +
+            $"\n" +
+            $"Birthday: \"{this.PatientDetails.birthday}\".  " +
+            $"\n" +
+            $"Residence: \"{this.PatientDetails.residence}\".  " +
+            $"\n" +
+            $"Contact No: \"{this.PatientDetails.contactNo}\".  " +
+            $"\n" +
+            $"Date of Admission: \"{this.PatientDetails.dateOfAdmission}\".  " +
+            $"\n" +
+            $"Can you please confirm that these information are correct?";
+            await context.PostAsync(text);
+            PromptDialog.Confirm(context, this.IssueConfirmedMessageReceivedAsync, "Are all information correct, Please select  Yes if you would like to schedule an appointment and No if otherwise.");
+
+        }
+
 
         public async Task IssueConfirmedMessageReceivedAsync(IDialogContext context, IAwaitable<bool> argument)
         {
@@ -124,7 +263,7 @@ namespace msp_medical.Dialogs
             if (confirmed)
             {
                 var api = new TicketAPIClient();
-                var ticketId = await api.PostTicketAsync(this.name, this.age, this.sex,this.maritalStatus,this.birthday,this.residence, this.contactNo,this.dateOfAdmission);
+                var ticketId = await api.PostTicketAsync(PatientDetails);
 
                 if (ticketId != -1)
                 {
@@ -134,7 +273,7 @@ namespace msp_medical.Dialogs
                         new Attachment
                         {
                             ContentType = "application/vnd.microsoft.card.adaptive",
-                            Content = this.CreateCard(ticketId, this.name, this.age, this.sex, this.maritalStatus, this.birthday, this.residence, this.contactNo, this.dateOfAdmission)
+                            Content = this.CreateCard(ticketId, this.PatientDetails.name, this.PatientDetails.age, this.PatientDetails.sex,this.PatientDetails.maritalStatus, this.PatientDetails.birthday, this.PatientDetails.residence, this.PatientDetails.contactNo, this.PatientDetails.dateOfAdmission)
                         }
                     };
 
@@ -148,11 +287,13 @@ namespace msp_medical.Dialogs
             else
             {
                 await context.PostAsync("Ok. The ticket was not created. You can start again if you want.");
+
+                
             }
 
             context.Done<object>(null);
         }
-        private AdaptiveCard CreateCard(int ticketId, string name, string age, string gender, string maritalStatus, DateTime birthday, string residence, double contactNo, DateTime dateofAdmission)
+        private AdaptiveCard CreateCard(int ticketId, string name ,string age,string gender, string maritalStatus, DateTime birthday, string residence, double contactNo, DateTime dateofAdmission)
         {
             AdaptiveCard card = new AdaptiveCard();
 
@@ -179,7 +320,7 @@ namespace msp_medical.Dialogs
                                 Facts = new List<AdaptiveCards.Fact>
                                 {
                                     new AdaptiveCards.Fact("Name:", name),
-                                    new AdaptiveCards.Fact("Gender:", sex),
+                                    new AdaptiveCards.Fact("Gender:", gender),
                                     new AdaptiveCards.Fact("Age:", age.ToString()),
                                     new AdaptiveCards.Fact("Marital Status:", maritalStatus),
                                     new AdaptiveCards.Fact("Birthday:", birthday.ToString()),
@@ -208,7 +349,7 @@ namespace msp_medical.Dialogs
 
             var doa = new TextBlock
             {
-                Text = "Date of Admission:" + dateOfAdmission.ToString(),
+                Text = "Date of Admission:" + this.PatientDetails.dateOfAdmission.ToString(),
                 Wrap = true
             };
 
