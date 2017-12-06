@@ -8,6 +8,7 @@ using msp_medical.Controllers;
 using AdaptiveCards;
 using msp_medical.Infrastructure.Entities;
 using msp_medical.Infrastructure.Database;
+using System.Linq;
 
 namespace msp_medical.Dialogs
 {
@@ -16,30 +17,108 @@ namespace msp_medical.Dialogs
     {
 
         PatientInfo PatientDetails = new PatientInfo();
-        
-        
-        
+        State state = new State();
+
+        [NonSerialized]
+        private StateClient stateClient;
+        [NonSerialized]
+        private BotState botState;
+        [NonSerialized]
+        private BotData botData;
+
         public Task StartAsync(IDialogContext context)
         {
-            context.Wait(MessageReceivedAsync);
+            //stateClient = context.Activity.GetStateClient();
+            //botState = new BotState(stateClient);
+            //botData = await botState.GetConversationDataAsync(context.Activity.ChannelId, context.Activity.From.Id);
 
+            //using (var bData = new DbConfiguration())
+            //{
+            //    var a = bData.State.Select(z => z.Data).ToList().Count;
+            //    if (a != 0)
+            //    {
+            //        await context.PostAsync("Welcome back! :)");
+            //        context.(GenderMessageReceivedAsync); //change later
+            //    }
+            //    else
+            //    {
+            context.Wait(MessageReceivedAsync);
             return Task.CompletedTask;
+
+            //    } }
         }
 
         public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
         {
             var message = await argument;
-            await context.PostAsync("Hi! I’m the MSP-Medical Bot. I will be guiding you to your Appointment.");
-            PromptDialog.Confirm(context, this.NameMessageReceivedAsync, "Are you already a registered patient?");
+            stateClient = context.Activity.GetStateClient();
+            botState = new BotState(stateClient);
+            botData = await botState.GetConversationDataAsync(context.Activity.ChannelId, context.Activity.From.Id);
 
+
+
+            using (var bData = new DbConfiguration())
+            {
+                var authenticated = bData.State.Select(x => x.ETag == "auth").ToList();
+                //var a = bData.State.Select(z => z.Data).ToList().Count;
+                //if (a != 0)
+                //{
+                if (authenticated.FirstOrDefault().ToString() == "true") { 
+                    await context.PostAsync("Welcome back! :)");
+                    //context.(GenderMessageReceivedAsync); //change later
+                    await FullNameMessageReceivedAsync(context);
+                }
+                else
+                {
+                    await context.PostAsync("Hi! I’m the MSP-Medical Bot. I will be guiding you to your Appointment.");
+                    PromptDialog.Confirm(context, this.NameMessageReceivedAsync, "Are you already a registered patient?");
+                }
+            }
+           
+        }
+
+        public async Task FullNameMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.Name = Convert.ToString(await argument);
+            await GenderMessageReceivedAsync(context);
+        }
+
+        public async Task GenderMessageReceivedAsync(IDialogContext context)
+        {
+            PromptDialog.Choice(context, this.missingGender, new List<string>() { "Male", "Female" }, $"What is your gender {this.PatientDetails.Name}?");
         }
 
         #region Appointment
         public async Task NameMessageReceivedAsync(IDialogContext context, IAwaitable<bool> argument)
         {
             var confirmed = await argument;
-            await context.PostAsync("Thanks this is noted \U0001F600");
-            PromptDialog.Text(context, this.FullNameMessageReceivedAsync, "What is your fullname? Ex. Jane D Doe"); 
+            if (confirmed)
+            {
+                await context.PostAsync("Thanks this is noted \U0001F600");
+                PromptDialog.Text(context, this.FullNameMessageReceivedAsync, "What is your fullname? Ex. Jane D Doe");
+            }
+            else
+            {
+                using (var bd = new DbConfiguration())
+                {
+                   
+                stateClient = context.Activity.GetStateClient();
+                botState = new BotState(stateClient);
+                botData = new BotData(); //update db
+                botData.ETag = this.state.Data = "Etag";
+                botData.Data = this.state.Data = "Data";
+
+                
+                    bd.State.Add(state);
+                    bd.SaveChanges();
+                   
+                }
+                var api = new AuthenticationController();
+                await api.Posts((Activity)context.Activity);
+
+                //await GenderMessageReceivedAsync(context);
+            }
+
         }
 
         public async Task FullNameMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
