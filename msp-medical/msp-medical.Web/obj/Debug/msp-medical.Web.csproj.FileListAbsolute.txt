@@ -81,3 +81,38 @@ C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\obj\Debug\msp-medical.Web.dll
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\obj\Debug\msp-medical.Web.pdb
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\obj\Debug\msp-medical.Web.csproj.CoreCompileInputs.cache
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Bot Application.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\System.Web.Http.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Microsoft.Bot.Connector.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Microsoft.Bot.Builder.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\EntityFramework.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\AdaptiveCards.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\System.Net.Http.Formatting.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\System.Web.Http.WebHost.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Microsoft.Bot.Builder.Autofac.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Microsoft.Rest.ClientRuntime.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Chronic.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Bot Application.pdb
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Bot Application.dll.config
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\System.Web.Http.xml
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Microsoft.Bot.Connector.xml
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Microsoft.Bot.Builder.xml
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\EntityFramework.xml
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\System.Net.Http.Formatting.xml
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\System.Web.Http.WebHost.xml
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Microsoft.Bot.Builder.Autofac.xml
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\Microsoft.Rest.ClientRuntime.xml
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\ar\Microsoft.Bot.Builder.resources.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\cs\Microsoft.Bot.Builder.resources.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\de-dE\Microsoft.Bot.Builder.resources.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\en\Microsoft.Bot.Builder.resources.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\es\Microsoft.Bot.Builder.resources.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\fa\Microsoft.Bot.Builder.resources.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\fr\Microsoft.Bot.Builder.resources.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\it\Microsoft.Bot.Builder.resources.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\ja\Microsoft.Bot.Builder.resources.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\nl\Microsoft.Bot.Builder.resources.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\pt-BR\Microsoft.Bot.Builder.resources.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\ru\Microsoft.Bot.Builder.resources.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\bin\zh-hans\Microsoft.Bot.Builder.resources.dll
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical.Web\obj\Debug\msp-medical.Web.csprojResolveAssemblyReference.cache

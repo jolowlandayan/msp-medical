@@ -1,4 +1,5 @@
 ﻿using msp_medical.Infrastructure.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -18,11 +19,12 @@ namespace msp_medical.Util
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(@"http://msp-medical20171204060458.azurewebsites.net/");
+                    //client.BaseAddress = new Uri(@"http://localhost:3979/");
+
+                    var test = PatientDetails;
+                    string toBeSent = JsonConvert.SerializeObject(test);
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-
-
-                    var response = await client.PostAsJsonAsync("api/tickets", PatientDetails);
+                    var response =  client.PostAsJsonAsync("api/tickets", toBeSent).Result;                 
                     return await response.Content.ReadAsAsync<int>();
                 }
             }

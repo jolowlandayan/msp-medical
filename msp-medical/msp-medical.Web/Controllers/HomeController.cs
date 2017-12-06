@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 
@@ -16,6 +18,8 @@ namespace msp_medical.Web.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
+
+
 
             return View();
         }

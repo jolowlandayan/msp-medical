@@ -184,3 +184,4 @@ C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\obj\Debug\Bot Application.dll
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\obj\Debug\Bot Application.pdb
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\obj\Debug\msp-medical.csproj.CoreCompileInputs.cache
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\obj\Debug\msp-medical.csprojResolveAssemblyReference.cache
