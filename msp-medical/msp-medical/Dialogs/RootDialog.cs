@@ -8,16 +8,17 @@ using msp_medical.Controllers;
 using AdaptiveCards;
 using msp_medical.Infrastructure.Entities;
 using msp_medical.Infrastructure.Database;
+using Microsoft.Bot.Builder.Luis;
+using Microsoft.Bot.Builder.Luis.Models;
 
 namespace msp_medical.Dialogs
 {
+    [LuisModel("7155e047-5f1d-454a-85ac-828fb19119d0", "188b459951c04b4482c3650a75e9c874")]
     [Serializable]
-    public class RootDialog : IDialog<object>
+    public class RootDialog : LuisDialog<object>, IDialog<object>
     {
 
         PatientInfo PatientDetails = new PatientInfo();
-        
-        
         
         public Task StartAsync(IDialogContext context)
         {
@@ -34,19 +35,50 @@ namespace msp_medical.Dialogs
 
         }
 
+        public async Task ConcernMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            this.PatientDetails.Name = Convert.ToString(await argument);
+            PromptDialog.Choice(context, this.SelectionMessageReceivedAsync, new List<string>() { "Nearest Hospital", "Emergency", "Appointment" }, $"What is your concern {this.PatientDetails.Name}?");
+        }
+
+        public async Task SelectionMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            var choice = await argument;
+
+            if (choice == "Appointment")
+            {
+                await GenderMessageReceivedAsync(context);
+            }
+            else if (choice == "Nearest Hospital")
+            {
+                await context.PostAsync($"Where are you located {PatientDetails.Name}?");
+            }
+        }
+
+        [LuisIntent("NearestHospital")]
+        public async Task FindHospital(IDialogContext context, string argument, LuisResult results)
+        {
+            EntityRecommendation hospital;
+
+            results.TryFindEntity("hospital", out hospital);
+        }
+
+        #region NearestHospital
+        #endregion
+
         #region Appointment
         public async Task NameMessageReceivedAsync(IDialogContext context, IAwaitable<bool> argument)
         {
             var confirmed = await argument;
             await context.PostAsync("Thanks this is noted \U0001F600");
-            PromptDialog.Text(context, this.FullNameMessageReceivedAsync, "What is your fullname? Ex. Jane D Doe"); 
+            PromptDialog.Text(context, this.ConcernMessageReceivedAsync, "What is your fullname? Ex. Jane D Doe"); 
         }
 
-        public async Task FullNameMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
-        {
-            this.PatientDetails.Name = Convert.ToString(await argument);
-            await GenderMessageReceivedAsync(context);
-        }
+        //public async Task FullNameMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
+        //{
+        //    this.PatientDetails.Name = Convert.ToString(await argument);
+            
+        //}
 
         public async Task GenderMessageReceivedAsync(IDialogContext context)
         {
