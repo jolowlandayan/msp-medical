@@ -60,6 +60,29 @@ namespace msp_medical.Controllers
             }
             
         }
+
+        [HttpGet]
+        public IHttpActionResult Getdetail([FromUri]int id)
+        {
+
+            var data = new List<PatientInfo>();
+            using (var context = new DbConfiguration())
+            {
+                data = context.PatientInfo.Where(x => x.PatientId == id).ToList();
+
+            }
+
+            if (data.Count != 0)
+            {
+                return this.Ok(data);
+            }
+            else
+            {
+                return this.BadRequest();
+            }
+
+        }
+
         private PatientInfo LoadFromJson(string response)
         {
             var outObject = JsonConvert.DeserializeObject<PatientInfo>(response);

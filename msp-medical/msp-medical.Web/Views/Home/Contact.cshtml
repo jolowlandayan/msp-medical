@@ -1,17 +1,101 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Patient Detail";
 }
 <h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+
+        @foreach (var patient in ViewBag.PatientDetail)
+        {
+
+            @Html.Label("Patient Id")
+            <span> : @patient.PatientId </span>
+
+
+            <br>
+            @Html.Label("Name")
+            <span> : @patient.Name </span>
+
+            <br>
+            @Html.Label("Date of Admission")
+            <span> : @patient.DateOfAdmission </span>
+
+            <br>
+            @Html.Label("Gender")
+            <span> : @patient.Sex </span>
+
+            <br>
+            @Html.Label("Age")
+            <span> : @patient.Age </span>
+
+            <br>
+            @Html.Label("Marital Status")
+            <span> : @patient.MaritalStatus </span>
+
+
+            <br>
+            @Html.Label("Address")
+            <span> : @patient.Address </span>
+
+            <br>
+            @Html.Label("Contact Number")
+            <span> : @patient.ContactNumber </span>
+
+            <br>
+            @Html.Label("Description of patients concern")
+            <span> : @patient.Description</span>
+
+            <br>
+            @Html.Label("Relieving Factors")
+            <span> : @patient.RelievingFactors </span>
+
+            <br>
+            @Html.Label("Timing")
+            <span> : @patient.Timing </span>
+
+
+            <br>
+            @Html.Label("Medications")
+            <span> : @patient.Medications </span>
+
+            <br>
+            @Html.Label("Previous Hospitalization")
+            <span> : @patient.PreviousHospitalization </span>
+
+            <br>
+            @Html.Label("Medications Taken")
+            <span> : @patient.MedicationsTaken </span>
+
+            <br>
+            @Html.Label("Deseases")
+            <span> : @patient.Diseases </span>
+
+            <br>
+            @Html.Label("Injuries/Incidents")
+            <span> : @patient.InjuriesAccidents </span>
+
+            <br>
+            @Html.Label("Operations")
+            <span> : @patient.Operations </span>
+
+            <br>
+            @Html.Label("Allergies")
+            <span> : @patient.Allergies </span>
+
+         
+
+            <br>
+            @Html.Label("Water Supply")
+            <span> : @patient.WaterSupply </span>
+
+         
+
+            <br>
+            @Html.Label("Number of Household members")
+            <span> : @patient.HouseholdMembers</span>
+
+
+
+            
+
+        }
