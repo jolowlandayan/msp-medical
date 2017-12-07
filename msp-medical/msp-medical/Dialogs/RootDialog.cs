@@ -10,14 +10,15 @@ using msp_medical.Infrastructure.Entities;
 using msp_medical.Infrastructure.Database;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
+using Newtonsoft.Json;
+using System.Threading;
 
 namespace msp_medical.Dialogs
-{
-    [LuisModel("7155e047-5f1d-454a-85ac-828fb19119d0", "188b459951c04b4482c3650a75e9c874")]
+{ 
     [Serializable]
-    public class RootDialog : LuisDialog<object>, IDialog<object>
+    public class RootDialog : IDialog<object>
     {
-
+        private string hosp;
         PatientInfo PatientDetails = new PatientInfo();
         
         public Task StartAsync(IDialogContext context)
@@ -51,22 +52,30 @@ namespace msp_medical.Dialogs
             }
             else if (choice == "Nearest Hospital")
             {
-                await context.PostAsync($"Where are you located {PatientDetails.Name}?");
+                await LocationMessageReceived(context);
             }
         }
 
-        [LuisIntent("NearestHospital")]
-        public async Task FindHospital(IDialogContext context, string argument, LuisResult results)
-        {
-            EntityRecommendation hospital;
-
-            results.TryFindEntity("hospital", out hospital);
-        }
-
         #region NearestHospital
+        public async Task NearestHospitalMessageReceived(IDialogContext context, IAwaitable<object> results)
+        {
+            //await context.PostAsync("Thanks this is noted.");
+            //var activity = await results as Activity;
+            await context.Forward(new NearestHospitalDialog(), ResumeAfterLuisDialog, context.Activity, CancellationToken.None);
+        }
+        public async Task ResumeAfterLuisDialog(IDialogContext context, IAwaitable<object> results)
+        {
+            context.Wait(NearestHospitalMessageReceived);
+            //await context.PostAsync("hello!");
+        }
         #endregion
 
         #region Appointment
+        public async Task LocationMessageReceived(IDialogContext context)
+        {
+            PromptDialog.Text(context, NearestHospitalMessageReceived, $"Where are you located {PatientDetails.Name}?");
+        }
+
         public async Task NameMessageReceivedAsync(IDialogContext context, IAwaitable<bool> argument)
         {
             var confirmed = await argument;
@@ -372,6 +381,6 @@ namespace msp_medical.Dialogs
 
             return card;
         }
-#endregion
+    #endregion
     }
 }

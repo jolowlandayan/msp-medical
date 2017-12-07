@@ -1,6 +1,7 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,28 +14,29 @@ namespace msp_medical.Dialogs
     [Serializable]
     public class NearestHospitalDialog : LuisDialog<object>
     {
-        public string city;
-        public string hospital;
+        public string hosp;
 
         [LuisIntent("None")]
         [LuisIntent("")]
         public async Task None(IDialogContext context, LuisResult result)
         {
             await context.PostAsync($"I'm sorry, I did not understand {result.Query}.\nType 'help' to know more about me :)");
-            context.Done<object>(null);
-        }
-
-        public async Task LocationMessageReceived(IDialogContext context, string name)
-        {
-            await context.PostAsync($"Where are you located {name}?");
+            context.Wait(this.MessageReceived);
         }
 
         [LuisIntent("NearestHospital")]
-        public async Task FindHospital(IDialogContext context, string argument, LuisResult results)
+        public async Task FindHospital(IDialogContext context, LuisResult results)
         {
+            //await context.PostAsync("hello!");
+
             EntityRecommendation hospital;
 
             results.TryFindEntity("hospital", out hospital);
+            hosp = JsonConvert.SerializeObject(hospital.Resolution["values"], Formatting.None);
+            hosp = hosp.Replace("[\"", "");
+            hosp = hosp.Replace("\"]", "");
+            await context.PostAsync($"The nearest hospital is {hosp}");
+            context.Wait(this.MessageReceived);
         }
 
 
