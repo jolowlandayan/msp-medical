@@ -30,11 +30,16 @@ namespace msp_medical.Dialogs
             //await context.PostAsync("hello!");
 
             EntityRecommendation hospital;
+            List<string> test = new List<string>();
 
             results.TryFindEntity("hospital", out hospital);
             hosp = JsonConvert.SerializeObject(hospital.Resolution["values"], Formatting.None);
             hosp = hosp.Replace("[\"", "");
             hosp = hosp.Replace("\"]", "");
+            hosp = hosp.Replace('"', ' ').Trim();
+
+            test = hosp.Split(',').ToList();
+
             await context.PostAsync($"The nearest hospital is {hosp}");
             context.Wait(this.MessageReceived);
         }
