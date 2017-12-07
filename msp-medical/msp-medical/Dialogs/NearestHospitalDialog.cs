@@ -42,6 +42,7 @@ namespace msp_medical.Dialogs
 
             await context.PostAsync($"The nearest hospital is {hosp}");
             context.Wait(this.MessageReceived);
+            context.Done<object>(null);
         }
 
 
