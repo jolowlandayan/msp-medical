@@ -15,11 +15,13 @@ namespace msp_medical.Infrastructure.Database
         }
         public DbSet<PatientInfo> PatientInfo { get; set; }
         public DbSet<PatientPicture> PatientPicture { get; set; }
+        public DbSet<State> Authentication { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new PatientConfig());
             modelBuilder.Configurations.Add(new PatientPictureConfig());
+            modelBuilder.Configurations.Add(new StateConfig());
             base.OnModelCreating(modelBuilder);
         }
     }

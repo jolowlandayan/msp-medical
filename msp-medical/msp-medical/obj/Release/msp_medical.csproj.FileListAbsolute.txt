@@ -91,3 +91,5 @@ C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\obj\Release\msp_medical.csproj.CoreCompileInputs.cache
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\obj\Release\Bot Application.dll
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\obj\Release\Bot Application.pdb
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\obj\Release\msp_medical.Migrations.getStatebutneedstobeupdated.resources
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\obj\Release\msp_medical.csproj.GenerateResource.Cache

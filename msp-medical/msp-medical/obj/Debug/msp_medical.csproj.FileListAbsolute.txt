@@ -91,3 +91,6 @@ C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\bin\zh-hans\Microsoft.Bot.Builder.resources.dll
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\obj\Debug\Bot Application.dll
 C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\obj\Debug\Bot Application.pdb
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\obj\Debug\msp_medical.csprojResolveAssemblyReference.cache
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\obj\Debug\msp_medical.Migrations.getStatebutneedstobeupdated.resources
+C:\Users\dacumos\Documents\PersonalRepo\msp-medical\msp-medical\msp-medical\msp-medical\obj\Debug\msp_medical.csproj.GenerateResource.Cache
