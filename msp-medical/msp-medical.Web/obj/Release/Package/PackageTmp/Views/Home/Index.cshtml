@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "MSP-Medical";
+}
+
+<div class="jumbotron">
+    <h1>Azure</h1>
+    <p class="lead">Just a random Webpage lets say a website for the Hospital, The main point here is for the Chatbot</p>
+    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Test some more! &raquo;</a></p>
+</div>
+
+
+<script>
+    (function () {
+        var div = document.createElement("div");
+        document.getElementsByTagName('body')[0].appendChild(div);
+        div.outerHTML = "<div id='botDiv' style='height: 38px; position: fixed; bottom: 0; z-index: 1000; background-color: #fff'><div id='botTitleBar' style='height: 38px; width: 400px; position:fixed; cursor: pointer;'></div><iframe width='400px' height='600px' src='https://webchat.botframework.com/embed/msp-medical20171204060458?s=sBdR0Sx-2ek.cwA.GCU.AnlU3k-7liKvE12y5XfBS0pr3hIHtGJcOMBxgmZY2_c'></iframe></div>";
+
+        document.querySelector('body').addEventListener('click', function (e) {
+            e.target.matches = e.target.matches || e.target.msMatchesSelector;
+            if (e.target.matches('#botTitleBar')) {
+                var botDiv = document.querySelector('#botDiv');
+                botDiv.style.height = botDiv.style.height == '600px' ? '38px' : '600px';
+            };
+        });
+    }());
+
+</script>

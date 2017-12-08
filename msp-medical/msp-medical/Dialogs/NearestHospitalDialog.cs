@@ -1,10 +1,12 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -21,7 +23,47 @@ namespace msp_medical.Dialogs
         public async Task None(IDialogContext context, LuisResult result)
         {
             await context.PostAsync($"I'm sorry, I did not understand {result.Query}.\nType 'help' to know more about me :)");
-            context.Wait(this.MessageReceived);
+            
+        }
+
+        [LuisIntent("Help")]
+        public async Task Help(IDialogContext context, LuisResult result)
+        {
+            await context.PostAsync($"Sorry I did not understand,Pleases type in the city that you are in");
+
+        }
+
+        [LuisIntent("Thanks")]
+        public async Task Thanks(IDialogContext context, LuisResult result)
+        {
+            
+            PromptDialog.Confirm(context, DecisionMaker, $"If you have any concerns please type the location wherein you want to find a Hospital near you");
+            
+            
+        }
+
+        public async Task DecisionMaker(IDialogContext context, IAwaitable<bool> result) {
+            var confirmation = await result;
+
+            if (confirmation)
+            {
+                context.Done<object>(null);
+            }
+            else {
+
+               
+
+                var message = context.MakeMessage();
+
+                var attachment = GetAnimationCard();
+                message.Attachments.Add(attachment);
+
+                await context.PostAsync(message);
+
+                
+
+                await context.Forward(new RootDialog(), null, context.Activity, CancellationToken.None);
+            }
         }
 
         [LuisIntent("NearestHospital")]
@@ -41,9 +83,30 @@ namespace msp_medical.Dialogs
             test = hosp.Split(',').ToList();
 
             await context.PostAsync($"The nearest hospital is {hosp}");
-            context.Wait(this.MessageReceived);
+            context.Done(context);
         }
 
+        private static Attachment GetAnimationCard()
+        {
+            var animationCard = new AnimationCard
+            {
+                Title = "Microsoft Bot Framework",
+                Subtitle = "Animation Card",
+                Image = new ThumbnailUrl
+                {
+                    Url = "https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png"
+                },
+                Media = new List<MediaUrl>
+        {
+            new MediaUrl()
+            {
+                Url = "https://m.popkey.co/9239e8/LlwQL.gif"
+            }
+        }
+            };
+
+            return animationCard.ToAttachment();
+        }
 
     }
 }

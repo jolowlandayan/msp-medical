@@ -42,6 +42,7 @@ namespace msp_medical.Dialogs
             PromptDialog.Choice(context, this.SelectionMessageReceivedAsync, new List<string>() { "Nearest Hospital", "Emergency", "Appointment" }, $"What is your concern {this.PatientDetails.Name}?");
         }
 
+
         public async Task SelectionMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
             var choice = await argument;
@@ -53,6 +54,7 @@ namespace msp_medical.Dialogs
             else if (choice == "Nearest Hospital")
             {
                 await LocationMessageReceived(context);
+                
             }
         }
 
@@ -62,6 +64,7 @@ namespace msp_medical.Dialogs
             //await context.PostAsync("Thanks this is noted.");
             //var activity = await results as Activity;
             await context.Forward(new NearestHospitalDialog(), ResumeAfterLuisDialog, context.Activity, CancellationToken.None);
+            
         }
         public async Task ResumeAfterLuisDialog(IDialogContext context, IAwaitable<object> results)
         {

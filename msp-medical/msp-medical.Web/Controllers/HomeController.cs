@@ -45,7 +45,7 @@ namespace msp_medical.Web.Controllers
             string responseText = string.Empty;
             var patients = new List<PatientInfo>();
             var userApi = "/api/tickets";
-            var finalUrl = "http://localhost:3979" + userApi;
+            var finalUrl = "http://msp-medical20171204060458.azurewebsites.net" + userApi;
             var request = (HttpWebRequest)WebRequest.Create(finalUrl);
 
             request.Accept = "application/json";
