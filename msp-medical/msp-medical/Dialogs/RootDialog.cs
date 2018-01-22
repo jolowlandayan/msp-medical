@@ -31,7 +31,20 @@ namespace msp_medical.Dialogs
         public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
         {
             var message = await argument;
-            await context.PostAsync("Hi! I’m the MSP-Medical Bot. I will be guiding you to your Appointment.");
+
+            if (DateTime.Now.Hour < 12)
+            {
+                await context.PostAsync("Good Morning! I’m the MSP-Medical Bot. I will be guiding you to your Appointment.");
+            }
+            else if (DateTime.Now.Hour < 17)
+            {
+                await context.PostAsync("Good Afternoon! I’m the MSP-Medical Bot. I will be guiding you to your Appointment.");
+            }
+            else
+            {
+                await context.PostAsync("Good Evening! I’m the MSP-Medical Bot. I will be guiding you to your Appointment.");
+            }
+
             PromptDialog.Confirm(context, this.NameMessageReceivedAsync, "Are you already a registered patient?");
 
         }
@@ -39,7 +52,7 @@ namespace msp_medical.Dialogs
         public async Task ConcernMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
             this.PatientDetails.Name = Convert.ToString(await argument);
-            PromptDialog.Choice(context, this.SelectionMessageReceivedAsync, new List<string>() { "Nearest Hospital", "Emergency", "Appointment" }, $"What is your concern {this.PatientDetails.Name}?");
+            PromptDialog.Choice(context, this.SelectionMessageReceivedAsync, new List<string>() { "Nearest Hospital", "Appointment" }, $"What is your concern {this.PatientDetails.Name}?");
         }
 
 
@@ -71,19 +84,19 @@ namespace msp_medical.Dialogs
             context.Wait(NearestHospitalMessageReceived);
             //await context.PostAsync("hello!");
         }
-        #endregion
 
-        #region Appointment
         public async Task LocationMessageReceived(IDialogContext context)
         {
             PromptDialog.Text(context, NearestHospitalMessageReceived, $"Where are you located {PatientDetails.Name}?");
         }
+        #endregion
 
+        #region Appointment
         public async Task NameMessageReceivedAsync(IDialogContext context, IAwaitable<bool> argument)
         {
             var confirmed = await argument;
-            await context.PostAsync("Thanks this is noted \U0001F600");
-            PromptDialog.Text(context, this.ConcernMessageReceivedAsync, "What is your fullname? Ex. Jane D Doe"); 
+            await context.PostAsync("Thank you this is noted. \U0001F600");
+            PromptDialog.Text(context, this.ConcernMessageReceivedAsync, "What is your fullname? Ex. Jane D Doe");
         }
 
         //public async Task FullNameMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
@@ -110,8 +123,7 @@ namespace msp_medical.Dialogs
 
         public async Task MaritalStatusMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
-            this.PatientDetails.MaritalStatus = await argument;
-            this.PatientDetails.Age = "26";
+            this.PatientDetails.Age = await argument;
             this.PatientDetails.Birthday = DateTime.Now.Date.AddDays(20);
             this.PatientDetails.DateOfAdmission = DateTime.Now.Date;
             PromptDialog.Confirm(context, this.BirthdayStatusMessageReceivedAsync, $"Are you married {this.PatientDetails.Name}? \U0001F600 \U0001F600 \U0001F600");
@@ -144,27 +156,27 @@ namespace msp_medical.Dialogs
           this.PatientDetails.ContactNumber = await argument;
           await context.PostAsync( "Thank you, your initial information has been gathered \U0001F600");
           await context.PostAsync("We will now gather information related to your present illness that you are feeling.");
-          PromptDialog.Text( context, this.DescriptionMessageReceivedAsync,"Please describe your current illness/feeling"); 
+          PromptDialog.Text( context, this.DescriptionMessageReceivedAsync,"Please describe your current illness/feeling."); 
         }
 
         public async Task DescriptionMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
             this.PatientDetails.Description = await argument;
-            await context.PostAsync($" we hope {this.PatientDetails.Name} you're feeling fine :(");
-            PromptDialog.Text(context, this.AggravatingFactorsMessageReceivedAsync, " Are there any aggravating factors to which may have cause your current illness?");
+            await context.PostAsync($"We hope {this.PatientDetails.Name} you're feeling fine.");
+            PromptDialog.Text(context, this.AggravatingFactorsMessageReceivedAsync, "Are there any aggravating factors to which may have cause your current illness?");
         }
 
         public async Task AggravatingFactorsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
             this.PatientDetails.AggravatingFactors = await argument;
-            PromptDialog.Text(context, this.RelievingFactorsMessageReceivedAsync, " Are there any relieving factors to which made you feel better?");
+            PromptDialog.Text(context, this.RelievingFactorsMessageReceivedAsync, "Are there any relieving factors to which made you feel better?");
 
         }
 
         public async Task RelievingFactorsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
             this.PatientDetails.RelievingFactors = await argument;
-            PromptDialog.Text(context, this.IntensityFactorsMessageReceivedAsync, "Rate the pain you are experiencing from 1 - 10");
+            PromptDialog.Text(context, this.IntensityFactorsMessageReceivedAsync, "Rate the pain you are experiencing from 1 - 10.");
 
         }
 
@@ -185,15 +197,14 @@ namespace msp_medical.Dialogs
         public async Task medicationsFactorsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
             this.PatientDetails.Medications = await argument;
-            PromptDialog.Text(context, this.previousHospitalizationFactorsMessageReceivedAsync, "Have you been recently hospitalied");
+            PromptDialog.Text(context, this.previousHospitalizationFactorsMessageReceivedAsync, "Have you been recently hospitalied.");
 
         }
 
         public async Task previousHospitalizationFactorsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
             this.PatientDetails.PreviousHospitalization = await argument;
-            PromptDialog.Text(context, this.medicationsTakenFactorsMessageReceivedAsync, "May you kindly list down the medications you are taking");
-
+            PromptDialog.Text(context, this.medicationsTakenFactorsMessageReceivedAsync, "May you kindly list down the medications you are taking.");
         }
 
         public async Task medicationsTakenFactorsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
@@ -213,7 +224,7 @@ namespace msp_medical.Dialogs
         public async Task injuriesorAccidentsMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
             this.PatientDetails.InjuriesAccidents = await argument;
-            PromptDialog.Text(context, this.operationsMessageReceivedAsync, "may you list down all operations that you have had");
+            PromptDialog.Text(context, this.operationsMessageReceivedAsync, "May you list down all operations that you have had.");
 
         }
 
@@ -228,7 +239,7 @@ namespace msp_medical.Dialogs
         {
             this.PatientDetails.Allergies = await argument;
             
-            PromptDialog.Choice(context, this.waterSupplyMessageReceivedAsync, new List<string>() { "Nawasa", "Maynilad", "Deepwell" }, "where do you get your water supply");
+            PromptDialog.Choice(context, this.waterSupplyMessageReceivedAsync, new List<string>() { "Nawasa", "Maynilad", "Deepwell" }, "Where do you get your water supply");
 
         }
 
@@ -244,7 +255,7 @@ namespace msp_medical.Dialogs
         {
             this.PatientDetails.DrinkingWater = await argument;
            
-            PromptDialog.Text(context, this.numberofhouseholdwaterMessageReceivedAsync,"Number of household members");
+            PromptDialog.Text(context, this.numberofhouseholdwaterMessageReceivedAsync,"Number of household members.");
 
         }
 
