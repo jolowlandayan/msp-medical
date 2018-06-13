@@ -17,6 +17,7 @@ namespace msp_medical.Dialogs
     public class NearestHospitalDialog : LuisDialog<object>
     {
         public string hosp;
+        public string emp;
 
         [LuisIntent("None")]
         [LuisIntent("")]
@@ -29,7 +30,7 @@ namespace msp_medical.Dialogs
         [LuisIntent("Help")]
         public async Task Help(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync($"Sorry I did not understand,Pleases type in the city that you are in");
+            await context.PostAsync($"Sorry I did not understand, Please type in the city that you are in");
 
         }
 
@@ -72,7 +73,7 @@ namespace msp_medical.Dialogs
             //await context.PostAsync("hello!");
 
             EntityRecommendation hospital;
-            List<string> test = new List<string>();
+            List<string> testlist = new List<string>();
 
             results.TryFindEntity("hospital", out hospital);
             hosp = JsonConvert.SerializeObject(hospital.Resolution["values"], Formatting.None);
@@ -80,9 +81,29 @@ namespace msp_medical.Dialogs
             hosp = hosp.Replace("\"]", "");
             hosp = hosp.Replace('"', ' ').Trim();
 
-            test = hosp.Split(',').ToList();
+            testlist = hosp.Split(',').ToList();
 
             await context.PostAsync($"The nearest hospital is {hosp}");
+            context.Done(context);
+        }
+
+        [LuisIntent("EmployeeId")]
+        public async Task FindEmployee(IDialogContext context, LuisResult results)
+        {
+            //await context.PostAsync("hello!");
+
+            EntityRecommendation hospital;
+            List<string> emplist = new List<string>();
+
+            results.TryFindEntity("employee", out hospital);
+            emp = JsonConvert.SerializeObject(hospital.Resolution["values"], Formatting.None);
+            emp = emp.Replace("[\"", "");
+            emp = emp.Replace("\"]", "");
+            emp = emp.Replace('"', ' ').Trim();
+
+            emplist = emp.Split(',').ToList();
+
+            await context.PostAsync($"Hello, {emp}");
             context.Done(context);
         }
 

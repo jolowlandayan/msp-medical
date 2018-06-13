@@ -14,13 +14,13 @@ using Newtonsoft.Json;
 using System.Threading;
 
 namespace msp_medical.Dialogs
-{ 
+{
     [Serializable]
     public class RootDialog : IDialog<object>
     {
         //private string hosp;
         PatientInfo PatientDetails = new PatientInfo();
-        
+
         public Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
@@ -30,23 +30,23 @@ namespace msp_medical.Dialogs
 
         public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
         {
-            var message = await argument;
+            //var message = await argument;
 
-            if (DateTime.Now.Hour < 12)
-            {
-                await context.PostAsync(String.Format("Good Morning! The date today {0}{1}. I’m the MSP-Medical Bot. I will be guiding you to your Appointment.", DateTime.Now.ToString("yyyy, MM, dd, hh:mm"),"AM"));
-            }
-            else if (DateTime.Now.Hour < 17)
-            {
-                await context.PostAsync(String.Format("Good Afternoon! The date today {0}{1}. I’m the MSP-Medical Bot. I will be guiding you to your Appointment.", DateTime.Now.ToString("yyyy, MM,dd, hh:mm"), "PM"));
-            }
-            else
-            {
-                await context.PostAsync(String.Format("Good Evening! The date today {0}{1}. I’m the MSP-Medical Bot. I will be guiding you to your Appointment.", DateTime.Now.ToString("yyyy, MM, dd, hh:mm"), "PM"));
-            }
+            //if (DateTime.Now.Hour < 12)
+            //{
+            //    await context.PostAsync(String.Format("Good Morning! The date today {0}{1}. I’m the MSP-Medical Bot. I will be guiding you to your Appointment.", DateTime.Now.ToString("yyyy, MM, dd, hh:mm"), "AM"));
+            //}
+            //else if (DateTime.Now.Hour < 17)
+            //{
+            //    await context.PostAsync(String.Format("Good Afternoon! The date today {0}{1}. I’m the MSP-Medical Bot. I will be guiding you to your Appointment.", DateTime.Now.ToString("yyyy, MM,dd, hh:mm"), "PM"));
+            //}
+            //else
+            //{
+            //    await context.PostAsync(String.Format("Good Evening! The date today {0}{1}. I’m the MSP-Medical Bot. I will be guiding you to your Appointment.", DateTime.Now.ToString("yyyy, MM, dd, hh:mm"), "PM"));
+            //}
 
-            PromptDialog.Confirm(context, this.NameMessageReceivedAsync, "Are you already a registered patient?");
-
+            //PromptDialog.Confirm(context, this.NameMessageReceivedAsync, "Are you already a registered patient?");
+            PromptDialog.Text(context, EmployeeIdMessageReceived, $"Hello, please enter your Employee ID so we can better help you.");
         }
 
         public async Task ConcernMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
@@ -64,10 +64,10 @@ namespace msp_medical.Dialogs
             {
                 await GenderMessageReceivedAsync(context);
             }
-            else if (choice == "Nearest Hospital")
+            if (choice == "Nearest Hospital")
             {
                 await LocationMessageReceived(context);
-                
+
             }
         }
 
@@ -77,11 +77,11 @@ namespace msp_medical.Dialogs
             //await context.PostAsync("Thanks this is noted.");
             //var activity = await results as Activity;
             await context.Forward(new NearestHospitalDialog(), ResumeAfterLuisDialog, context.Activity, CancellationToken.None);
-            
+
         }
         public async Task ResumeAfterLuisDialog(IDialogContext context, IAwaitable<object> results)
         {
-            context.Wait(NearestHospitalMessageReceived);
+            context.Wait(MessageReceivedAsync);
             //await context.PostAsync("hello!");
         }
 
@@ -102,7 +102,7 @@ namespace msp_medical.Dialogs
         //public async Task FullNameMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         //{
         //    this.PatientDetails.Name = Convert.ToString(await argument);
-            
+
         //}
 
         public async Task GenderMessageReceivedAsync(IDialogContext context)
@@ -132,7 +132,7 @@ namespace msp_medical.Dialogs
         public async Task BirthdayStatusMessageReceivedAsync(IDialogContext context, IAwaitable<bool> argument)
         {
             var confirmed = await argument;
-            if(confirmed)
+            if (confirmed)
             {
                 this.PatientDetails.MaritalStatus = "Married";
                 PromptDialog.Text(context, this.AddressMessageReceivedAsync, "Where do you live?");
@@ -153,10 +153,10 @@ namespace msp_medical.Dialogs
 
         public async Task ContactMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         {
-          this.PatientDetails.ContactNumber = await argument;
-          await context.PostAsync( "Thank you, your initial information has been gathered.");
-          await context.PostAsync("We will now gather information related to your present illness that you are feeling.");
-          PromptDialog.Text( context, this.RelievingFactorsMessageReceivedAsync, "Please describe your current illness/feeling."); 
+            this.PatientDetails.ContactNumber = await argument;
+            await context.PostAsync("Thank you, your initial information has been gathered.");
+            await context.PostAsync("We will now gather information related to your present illness that you are feeling.");
+            PromptDialog.Text(context, this.RelievingFactorsMessageReceivedAsync, "Please describe your current illness/feeling.");
         }
 
         //public async Task DescriptionMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
@@ -238,7 +238,7 @@ namespace msp_medical.Dialogs
         //public async Task allergiesMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         //{
         //    this.PatientDetails.Allergies = await argument;
-            
+
         //    PromptDialog.Choice(context, this.waterSupplyMessageReceivedAsync, new List<string>() { "Nawasa", "Maynilad", "Deepwell" }, "Where do you get your water supply");
 
         //}
@@ -246,7 +246,7 @@ namespace msp_medical.Dialogs
         //public async Task waterSupplyMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         //{
         //    this.PatientDetails.WaterSupply = await argument;
-            
+
         //    PromptDialog.Choice(context, this.drinkingwaterMessageReceivedAsync, new List<string>() { "Deepwell", "Filtered", "Boiledwater" }, "where do you get your drinking water");
 
         //}
@@ -254,7 +254,7 @@ namespace msp_medical.Dialogs
         //public async Task drinkingwaterMessageReceivedAsync(IDialogContext context, IAwaitable<string> argument)
         //{
         //    this.PatientDetails.DrinkingWater = await argument;
-           
+
         //    PromptDialog.Text(context, this.numberofhouseholdwaterMessageReceivedAsync,"Number of household members.");
 
         //}
@@ -325,13 +325,13 @@ namespace msp_medical.Dialogs
             {
                 await context.PostAsync("Ok. The ticket was not created. You can start again if you want.");
 
-                
+
             }
 
             context.Done<object>(null);
         }
 
-        private AdaptiveCard CreateCard(int ticketId, string name ,string age,string gender, string maritalStatus, DateTime birthday, string residence, string contactNo, DateTime dateofAdmission)
+        private AdaptiveCard CreateCard(int ticketId, string name, string age, string gender, string maritalStatus, DateTime birthday, string residence, string contactNo, DateTime dateofAdmission)
         {
             AdaptiveCard card = new AdaptiveCard();
 
@@ -364,7 +364,7 @@ namespace msp_medical.Dialogs
                                     new AdaptiveCards.Fact("Birthday:", birthday.ToString()),
                                     new AdaptiveCards.Fact("Residence:", residence),
                                     new AdaptiveCards.Fact("Contact No:", contactNo.ToString()),
-                                   
+
                                 }
                             }
                         }
@@ -397,6 +397,40 @@ namespace msp_medical.Dialogs
 
             return card;
         }
-    #endregion
+        #endregion
+
+        #region Employee ID
+        public async Task EmployeeIdMessageReceived(IDialogContext context, IAwaitable<object> results)
+        {
+            //await context.PostAsync("Thanks this is noted.");
+            //var activity = await results as Activity;
+            await context.Forward(new NearestHospitalDialog(), ResumeAfterEmployeeLuisDialog, context.Activity, CancellationToken.None);
+
+        }
+        public async Task EmployeeMessageReceived(IDialogContext context)
+        {
+            PromptDialog.Text(context, EmployeeIdMessageReceived, $"Please enter your Employee ID {PatientDetails.Name}.");
+        }
+        public async Task ResumeAfterEmployeeLuisDialog(IDialogContext context, IAwaitable<object> results)
+        {
+            await EmployeeConcernMessageReceived(context);
+            //PromptDialog.Text(context, EmployeeConcernMessageReceived, $"What is you concern?");
+            //await context.PostAsync("hello!");
+        }
+        public async Task EmployeeConcernMessageReceived(IDialogContext context)
+        {
+            
+            PromptDialog.Text(context, EmployeeConcernResponseMessageReceived, $"How can I help you today?");
+        }
+
+        public async Task EmployeeConcernResponseMessageReceived(IDialogContext context, IAwaitable<string> argument)
+        {
+            var res = await argument;
+            var link = @"[link](https://pfizer.rightanswers.com/portal/app/portlets/results/view2.jsp?k2dockey=110630130428498)";
+            await context.PostAsync("When you have received a new iOS device and after setting up the device it needs to be enrolled. Please visit this "+link+".");
+            await context.PostAsync("I hope you find this helpful. Thank you for contacting us.") ;
+        }
+
+        #endregion
     }
 }
